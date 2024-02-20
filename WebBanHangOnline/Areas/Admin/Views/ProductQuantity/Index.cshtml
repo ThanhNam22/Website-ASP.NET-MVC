@@ -1,0 +1,192 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.ProductQuanlity>
+@{
+    ViewBag.Title = "Quản lý số lượng sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+
+
+}
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-tools">
+                <button type="button" class="close pull-right">
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Màu sắc</label>
+                    <select id="color-dropdown" class="form-control">
+                        <option value="">Chọn màu sắc</option>
+                        @{
+                            foreach (var i in ViewBag.Colors)
+                            {
+                                <option value="@i.ID">@i.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Kích thước</label>
+                    <select id="size-dropdown" class="form-control">
+                        <option value="">Chọn size</option>
+                        @{
+                            foreach (var i in ViewBag.Sizes)
+                            {
+                                <option value="@i.ID">@i.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Số lượng</label>
+                    <input class="form-control" id="quantity-input" type="number" value="1" name="quantity">
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group text-center">
+                    <input style="display: block; margin-top: 30px;" id="addButton" class="btn btn-primary" value="Thêm" type="submit">
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Màu sắc</th>
+                        <th>Kích thước</th>
+                        <th>Số lượng</th>
+
+                        <th style="width:150px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+
+                        foreach (var item in Model)
+                        {
+                            <tr id="trow_@item.Id">
+                                <td>@item.Color.Name</td>
+                                <td>@item.Size.Name</td>
+                                <td>@item.Quantity</td>
+
+                                <td>
+                                    <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4">Không có bản ghi nào!!!</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '.btnDelete', function () {
+            var id = $(this).data('id');
+            var conf = confirm('Bạn có muốn xóa bản ghi này không?');
+            if (conf === true) {
+                $.ajax({
+                    url: '/admin/productquantity/delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            $('#trow_' + id).remove();
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#addButton').click(function (e) {
+    e.preventDefault();
+
+    // Lấy giá trị từ các trường input
+    var sizeId = $('#size-dropdown').val();
+    var colorId = $('#color-dropdown').val();
+    var quantity = $('#quantity-input').val();
+
+    // Tạo đối tượng dữ liệu để gửi lên máy chủ
+    var data = {
+        ProductId: '@ViewBag.ProductId',
+        SizeId: sizeId,
+        ColorId: colorId,
+        Quantity: quantity
+    };
+
+    // Lấy tên của size và màu sắc từ giá trị đã chọn
+    var sizeName = $('#size-dropdown option:selected').text();
+    var colorName = $('#color-dropdown option:selected').text();
+            var isDuplicate = false;
+            $('tbody tr').each(function () {
+                var existingColor = $(this).find('td:nth-child(1)').text();
+                var existingSize = $(this).find('td:nth-child(2)').text();
+
+                if (existingColor === colorName && existingSize === sizeName) {
+                    isDuplicate = true;
+                    return false; // Thoát khỏi vòng lặp nếu trùng lặp
+                }
+            });
+
+            if (isDuplicate) {
+                alert('Màu sắc và kích thước đã tồn tại trong bảng.');
+                return; // Không thêm dòng mới nếu trùng lặp
+            }
+    // Gửi yêu cầu Ajax
+   $.ajax({
+    url: '/admin/ProductQuantity/Add',
+    type: 'POST',
+    data: data,
+    success: function (rs) {
+        var i = 1;
+        var newRow = $('<tr>').attr('trow_', i).append(
+                $('<td>', { text: colorName }),
+                $('<td>', { text: sizeName }),
+                $('<td>', { text: quantity }),
+                $('<td>').append(
+                    $('<a>', {
+                        href: '#',
+                        'data-id': '@ViewBag.ProductId',
+                        class: 'btn btn-sm btn-danger btnDelete',
+                        text: 'Xóa'
+                    })
+                )
+            );
+
+            // Thêm dòng mới vào bảng
+            $('tbody').append(newRow);
+
+    }
+});
+});
+    });
+</script>
