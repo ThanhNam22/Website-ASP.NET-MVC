@@ -83,7 +83,43 @@
                         <li><i class="fa fa-star" aria-hidden="true"></i></li>
                         <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
                     </ul>
+                    <div class="product_color">
+                        <span>Select Color:</span>
+                        <select id="color-dropdown" class="form-control">
+                            <option value="">Chọn màu sắc</option>
+                            @{
+                                List<string> displayedColors = new List<string>();
+                            }
 
+                            @foreach (var item in ViewBag.ProductQuantity)
+                            {
+                                if (!displayedColors.Contains(item.Color.Name))
+                                {
+                                    displayedColors.Add(item.Color.Name);
+                                    <option value="@item.ColorId">@item.Color.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <br />
+                    <div class="product_size">
+                        <span>Select Size:</span>
+                        <select id="size-dropdown" class="form-control">
+                            <option value="">Chọn màu sắc</option>
+                            @{
+                                List<string> displayedSizes = new List<string>();
+                            }
+
+                            @foreach (var item in ViewBag.ProductQuantity)
+                            {
+                                if (!displayedColors.Contains(item.Size.Name))
+                                {
+                                    displayedColors.Add(item.Size.Name);
+                                    <option value="@item.SizeId">@item.Size.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
                     <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                         <span>Quantity:</span>
                         <div class="quantity_selector">
