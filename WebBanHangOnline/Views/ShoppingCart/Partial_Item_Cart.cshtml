@@ -6,6 +6,8 @@
         <th>Ảnh sản phẩm</th>
         <th>Tên sản phẩm</th>
         <th>Danh mục</th>
+        <th>Size</th>
+        <th>Màu sắc</th>
         <th>Giá</th>
 
         <th style="width:100px;">Số lượng</th>
@@ -30,6 +32,10 @@
                     </a>
                 </td>
                 <td>@item.CategoryName</td>
+
+                <td>@item.SizeName</td>
+                <td>@item.ColorName</td>
+
                 <td>@Common.FormatNumber(item.Price, 0)</td>
                 <td><input type="number" class="form-control" id="Quantity_@item.ProductId" value="@item.Quantity" /></td>
                 <th>@Common.FormatNumber(item.TotalPrice, 2)</th>

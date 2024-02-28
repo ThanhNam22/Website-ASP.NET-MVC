@@ -68,6 +68,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 }
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
+                model.IsHome= true;
+                
                 if (string.IsNullOrEmpty(model.SeoTitle))
                 {
                     model.SeoTitle = model.Title;
@@ -98,6 +100,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             {
                 model.ModifiedDate = DateTime.Now;
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
+                model.IsHome = true;
                 db.Products.Attach(model);
                 db.Entry(model).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();

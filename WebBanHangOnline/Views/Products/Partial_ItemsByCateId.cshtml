@@ -13,7 +13,7 @@
         <div class="product-item @item.ProductCategory.Alias">
             <div class="product discount product_filter">
                 <div class="product_image">
-                    <img src="@strImge" alt="@item.Title">
+                    <img height="245" src="@strImge" alt="@item.Title">
                 </div>
                 <div class="favorite favorite_left"></div>
                 @if (item.PriceSale > 0)
@@ -34,7 +34,7 @@
                     }
                 </div>
             </div>
-            <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">add to cart</a></div>
+            <div class="red_button add_to_cart_button"><a href="/chi-tiet/@item.Alias-p@(item.Id)" class="AddToCart" data-id="@item.Id">add to cart</a></div>
         </div>
     }
 }

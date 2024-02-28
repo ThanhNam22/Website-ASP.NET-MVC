@@ -13,9 +13,9 @@ namespace WebBanHangOnline.Models
             this.Items = new List<ShoppingCartItem>();
         }
 
-        public void AddToCart(ShoppingCartItem item,int Quantity)
+        public void AddToCart(ShoppingCartItem item,int Quantity, string size, string color)
         {
-            var checkExits = Items.FirstOrDefault(x => x.ProductId == item.ProductId);
+            var checkExits = Items.FirstOrDefault(x => x.ProductId == item.ProductId && x.SizeName==size && x.ColorName==color);
             if (checkExits != null)
             {
                 checkExits.Quantity += Quantity;
@@ -68,7 +68,8 @@ namespace WebBanHangOnline.Models
         public string Alias { get; set; }
         public string CategoryName { get; set; }
         public string ProductImg { get; set; }
-
+        public string SizeName { get; set; }
+        public string ColorName { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public decimal TotalPrice { get; set; }

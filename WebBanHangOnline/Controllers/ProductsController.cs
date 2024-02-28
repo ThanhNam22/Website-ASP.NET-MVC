@@ -29,6 +29,7 @@ namespace WebBanHangOnline.Controllers
                 db.SaveChanges();
             }
             ViewBag.ProductQuantity = db.ProductQuanlities.Where(x=>x.ProductId == id);
+
             return View(item);
         }
         public ActionResult ProductCategory(string alias,int id)

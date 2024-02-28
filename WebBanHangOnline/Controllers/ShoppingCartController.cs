@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,7 +20,7 @@ namespace WebBanHangOnline.Controllers
             if (cart != null && cart.Items.Any())
             {
                 ViewBag.CheckCart = cart;
-            }
+            } 
             return View();
         }
         public ActionResult CheckOut()
@@ -28,7 +29,10 @@ namespace WebBanHangOnline.Controllers
             if (cart != null && cart.Items.Any())
             {
                 ViewBag.CheckCart = cart;
+                
+
             }
+            
             return View();
         }
         public ActionResult CheckOutSuccess()
@@ -70,7 +74,26 @@ namespace WebBanHangOnline.Controllers
         {
             return PartialView();
         }
-
+        public string GetSizeName(int size)
+        {
+            var item = db.Sizes.Find(size);
+            return item.Name;
+        }
+        public string GetColorName(int color)
+        {
+            var item = db.Colors.Find(color);
+            return item.Name;
+        }
+        public int GetSizeID(string size)
+        {
+            var item = db.Sizes.FirstOrDefault(x=>x.Name==size);
+            return item.ID;
+        }
+        public int GetColorID(string color)
+        {
+            var item = db.Colors.FirstOrDefault(x => x.Name == color);
+            return item.ID;
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CheckOut(OrderViewModel req)
@@ -90,6 +113,8 @@ namespace WebBanHangOnline.Controllers
                     {
                         ProductId = x.ProductId,
                         Quantity = x.Quantity,
+                        SizeId = GetSizeID(x.SizeName),
+                        ColorId = GetColorID(x.ColorName),
                         Price = x.Price
                     }));
                     order.TotalAmount = cart.Items.Sum(x => (x.Price * x.Quantity));
@@ -110,6 +135,8 @@ namespace WebBanHangOnline.Controllers
                     {
                         strSanPham += "<tr>";
                         strSanPham += "<td>" + sp.ProductName + "</td>";
+                        strSanPham += "<td>" + sp.SizeName + "</td>";
+                        strSanPham += "<td>" + sp.ColorName + "</td>";
                         strSanPham += "<td>" + sp.Quantity + "</td>";
                         strSanPham += "<td>" + WebBanHangOnline.Common.Common.FormatNumber(sp.TotalPrice, 0) + "</td>";
                         strSanPham += "</tr>";
@@ -147,7 +174,7 @@ namespace WebBanHangOnline.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddToCart(int id, int quantity)
+        public ActionResult AddToCart(int id, int quantity,string size,string color)
         {
             var code = new { Success = false, msg = "", code = -1, Count = 0 };
             var db = new ApplicationDbContext();
@@ -163,6 +190,8 @@ namespace WebBanHangOnline.Controllers
                 {
                     ProductId = checkProduct.Id,
                     ProductName = checkProduct.Title,
+                    SizeName = size,
+                    ColorName = color,
                     CategoryName = checkProduct.ProductCategory.Title,
                     Alias = checkProduct.Alias,
                     Quantity = quantity
@@ -177,9 +206,9 @@ namespace WebBanHangOnline.Controllers
                     item.Price = (decimal)checkProduct.PriceSale;
                 }
                 item.TotalPrice = item.Quantity * item.Price;
-                cart.AddToCart(item, quantity);
+                cart.AddToCart(item, quantity,size,color);
                 Session["Cart"] = cart;
-                code = new { Success = true, msg = "Thêm sản phẩm vào giở hàng thành công!", code = 1, Count = cart.Items.Count };
+                code = new { Success = true, msg = "Thêm sản phẩm vào giỏ hàng thành công!", code = 1, Count = cart.Items.Count };
             }
             return Json(code);
         }

@@ -233,6 +233,10 @@
     <Compile Include="Migrations\202402171531579_Update_Quantity.designer.cs">
       <DependentUpon>202402171531579_Update_Quantity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202402260657222_Update-ProductQuanlity.cs" />
+    <Compile Include="Migrations\202402260657222_Update-ProductQuanlity.designer.cs">
+      <DependentUpon>202402260657222_Update-ProductQuanlity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommonAbstract.cs" />
@@ -3623,6 +3627,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202402171531579_Update_Quantity.resx">
       <DependentUpon>202402171531579_Update_Quantity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202402260657222_Update-ProductQuanlity.resx">
+      <DependentUpon>202402260657222_Update-ProductQuanlity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

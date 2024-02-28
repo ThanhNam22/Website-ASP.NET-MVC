@@ -96,7 +96,7 @@
                                 if (!displayedColors.Contains(item.Color.Name))
                                 {
                                     displayedColors.Add(item.Color.Name);
-                                    <option value="@item.ColorId">@item.Color.Name</option>
+                                    <option value="@item.Color.Name">@item.Color.Name</option>
                                 }
                             }
                         </select>
@@ -105,17 +105,17 @@
                     <div class="product_size">
                         <span>Select Size:</span>
                         <select id="size-dropdown" class="form-control">
-                            <option value="">Chọn màu sắc</option>
+                            <option value="">Chọn size</option>
                             @{
                                 List<string> displayedSizes = new List<string>();
                             }
 
                             @foreach (var item in ViewBag.ProductQuantity)
                             {
-                                if (!displayedColors.Contains(item.Size.Name))
+                                if (!displayedSizes.Contains(item.Size.Name))
                                 {
-                                    displayedColors.Add(item.Size.Name);
-                                    <option value="@item.SizeId">@item.Size.Name</option>
+                                    displayedSizes.Add(item.Size.Name);
+                                    <option value="@item.Size.Name">@item.Size.Name</option>
                                 }
                             }
                         </select>
@@ -261,4 +261,70 @@
 }
 @section scripts{
     <script src="~/Content/assets/js/single_custom.js"></script>
+    <script>
+        //$(document).ready(function (e) {
+        //    $('body').on('click', '.btnAddToCart', function (e) {
+        //        e.preventDefault();
+        //        var id = $(this).data('id');
+        //        var quatity = 1;
+        //        var tQuantity = $('#quantity_value').text();
+        //        if (tQuantity != '') {
+        //            quatity = parseInt(tQuantity);
+        //        }
+        //        var sizeId = $("#size-dropdown").val(); // Lấy giá trị sizeId
+        //        var colorId = $("#color-dropdown").val(); // Lấy giá trị colorId
+        //        if (sizeId === "" || colorId === "") {
+        //            alert("Vui lòng chọn màu sắc và size!");
+        //        }
+        //        $.ajax({
+        //            url: '/shoppingcart/addtocart',
+        //            type: 'POST',
+        //            data: {
+        //                id: id,
+        //                quantity: quatity,
+        //                size: sizeId,
+        //                color: colorId
+        //            },
+        //            success: function (rs) {
+        //                if (rs.Success) {
+        //                    $('#checkout_items').html(rs.Count);
+        //                    alert(rs.msg);
+        //                }
+        //            }
+        //        });
+        //    });
+        //});
+        $(document).ready(function (e) {
+            $('body').off('click', '.btnAddToCart').on('click', '.btnAddToCart', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                var quatity = 1;
+                var tQuantity = $('#quantity_value').text();
+                if (tQuantity != '') {
+                    quatity = parseInt(tQuantity);
+                }
+                var sizeId = $("#size-dropdown").val(); // Lấy giá trị sizeId
+                var colorId = $("#color-dropdown").val(); // Lấy giá trị colorId
+                if (sizeId === "" || colorId === "") {
+                    alert("Vui lòng chọn màu sắc và size!");
+                }
+                $.ajax({
+                    url: '/shoppingcart/addtocart',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        quantity: quatity,
+                        size: sizeId,
+                        color: colorId
+                    },
+                    success: function (rs) {
+                        if (rs.Success) {
+                            $('#checkout_items').html(rs.Count);
+                            alert(rs.msg);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 }

@@ -256,3 +256,4 @@ D:\DotNet\Project_FPT\Proj_ThamKhao\WebBanHangOnline\WebBanHangOnline\obj\Debug\
 D:\DotNet\Project_FPT\Proj_ThamKhao\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.Update_Size_Color.resources
 D:\DotNet\Project_FPT\Proj_ThamKhao\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateQuanlity.resources
 D:\DotNet\Project_FPT\Proj_ThamKhao\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.Update_Quantity.resources
+D:\DotNet\Project_FPT\Proj_ThamKhao\WebBanHangOnline\WebBanHangOnline\obj\Debug\WebBanHangOnline.Migrations.UpdateProductQuanlity.resources

@@ -25,7 +25,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Add(int productId, int sizeId,int colorId, int quantity )
         {
-            var item = db.ProductQuanlities.FirstOrDefault(x => x.SizeId == sizeId && x.ColorId == colorId);
+            var item = db.ProductQuanlities.FirstOrDefault(x =>x.ProductId==productId&& x.SizeId == sizeId && x.ColorId == colorId);
             if(item == null)
             {
                 db.ProductQuanlities.Add(new ProductQuanlity
